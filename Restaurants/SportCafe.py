@@ -4,17 +4,18 @@ from bs4 import BeautifulSoup
 
 class SportCafe:
 	def __init__(self):
-		self.url = "https://www.sport-cafe.cz/#tydenni-menu"
-		self.name = "Sport Café"
+		self.__url = "https://www.sport-cafe.cz/#tydenni-menu"
+		self._name = "Sport Café"
 
 	async def scrape_data(self):
-		response = await RequestHelper.get_url(self.url)
+		response = await RequestHelper.get_url(self.__url)
 		soup = BeautifulSoup(response, "html.parser")
 		days = soup.findAll("h4")[1:-2]
-		result = self.process_data(days)
+		result = self.__process_data(days)
 		return result
 
-	def process_data(self, days):
+	@staticmethod
+	def __process_data(days):
 		result = {}
 		for i in range(len(days)):
 			current_h4 = days[i]
@@ -34,3 +35,7 @@ class SportCafe:
 			result[current_h4.text.strip().replace("\xa0", "")] = food
 
 		return result
+
+	@property
+	def name(self):
+		return self._name

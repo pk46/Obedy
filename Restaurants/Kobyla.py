@@ -4,17 +4,18 @@ from bs4 import BeautifulSoup
 
 class Kobyla:
     def __init__(self):
-        self.url = "https://kobylahradec.cz/poledni-menu/"
-        self.name = "Kobyla"
+        self.__url = "https://kobylahradec.cz/poledni-menu/"
+        self._name = "Kobyla"
 
     async def scrape_data(self):
-        response = await RequestHelper.get_url(self.url)
+        response = await RequestHelper.get_url(self.__url)
         soup = BeautifulSoup(response, "html.parser")
         menu = soup.findAll()
-        result = self.process_data(menu)
+        result = self.__process_data(menu)
         return result
 
-    def process_data(self, menu):
+    @staticmethod
+    def __process_data(menu):
         result = []
         food = []
 
@@ -26,3 +27,7 @@ class Kobyla:
             result.append(element.text + "\n")
 
         return result
+
+    @property
+    def name(self):
+        return self._name

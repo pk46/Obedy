@@ -5,12 +5,12 @@ from bs4 import BeautifulSoup
 class Ulva:
 
 	def __init__(self):
-		self.url = "http://www.ulvahk.cz/denni-menu/"
-		self.name = "U Lva"
+		self.__url = "http://www.ulvahk.cz/denni-menu/"
+		self._name = "U Lva"
 
 	async def scrape_data(self):
 		table_data = []
-		response = await RequestHelper.get_url(self.url)
+		response = await RequestHelper.get_url(self.__url)
 		soup = BeautifulSoup(response, "html.parser")
 		table = soup.find("table")
 		table_body = table.find("tbody")
@@ -21,10 +21,11 @@ class Ulva:
 			cols = [ele.text.strip() for ele in cols]
 			table_data.append([ele for ele in cols if ele])
 
-		result = self.process_data(table_data)
+		result = self.__process_data(table_data)
 		return result
 
-	def process_data(self, table_data):
+	@staticmethod
+	def __process_data(table_data):
 		result = {}
 		data = table_data[9:-7]
 		for element in data:
@@ -46,3 +47,7 @@ class Ulva:
 				result[temp[0]] = [" ".join(food) for food in temp[1:]]
 			start_index = i
 		return result
+
+	@property
+	def name(self):
+		return self._name

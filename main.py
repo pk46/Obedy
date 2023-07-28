@@ -33,9 +33,9 @@ async def scrape_ulva():
 
 
 async def scrape_sportcafe():
-	sportCafe = SportCafe()
-	food = await sportCafe.scrape_data()
-	print(sportCafe.name)
+	sport_cafe = SportCafe()
+	food = await sport_cafe.scrape_data()
+	print(sport_cafe.name)
 	for key, values in food.items():
 		print(key)
 		for value in values:
@@ -45,8 +45,10 @@ async def scrape_sportcafe():
 
 async def start_scraping():
 	# tasks = [asyncio.create_task(scrape_kobyla()), asyncio.create_task(scrape_pivovarske_domy()),
-	# 		 asyncio.create_task(scrape_ulva()), asyncio.create_task(scrape_sportcafe())]
+	# 		asyncio.create_task(scrape_ulva()), asyncio.create_task(scrape_sportcafe())]
 	# await asyncio.gather(*tasks)
+
+
 	await asyncio.gather(scrape_sportcafe())
 
 if __name__ == "__main__":

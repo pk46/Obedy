@@ -49,9 +49,9 @@ class Ulva:
             start_index = i
     
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
     
     @property
-    def menu(self):
+    def menu(self) -> dict:
         return self._menu

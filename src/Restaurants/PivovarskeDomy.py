@@ -1,4 +1,4 @@
-from Utilities import RequestHelper
+from src.Utilities import RequestHelper
 from bs4 import BeautifulSoup
 
 
@@ -8,7 +8,7 @@ class PivovarskeDomy:
 		self._name = "Pivovarské domy"
 
 	async def scrape_data(self):
-		response = await RequestHelper.get_url(self.__url)
+		response, status_code = await RequestHelper.get_url(self.__url)
 		soup = BeautifulSoup(response, "html.parser")
 		days = soup.findAll("h2")
 		result = self.__process_data(days)

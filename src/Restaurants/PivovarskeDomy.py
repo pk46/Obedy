@@ -1,6 +1,8 @@
 from Utilities import RequestHelper
 from bs4 import BeautifulSoup
 
+from Utilities.RequestHelper import RetryableHttpError
+
 
 class PivovarskeDomy:
     def __init__(self):
@@ -10,12 +12,14 @@ class PivovarskeDomy:
     
     async def scrape_data(self):
         try:
-            response = await RequestHelper.get_url(self.__url)
+            response, status_code = await RequestHelper.get_url(self.__url)
             soup = BeautifulSoup(response, "html.parser")
             days = soup.findAll("h2")
             return self.__process_data(days)
-        except Exception as ex:
-            self._menu["Chyba při stahování dat"] = [str(ex)]
+        except RetryableHttpError as retryable_error:
+            print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
+        except Exception as error:
+            print(f"Neočekávaná chyba: {error}")
     
     def __process_data(self, days):
         for i in range(len(days)):

@@ -1,3 +1,4 @@
+from Utilities.RequestHelper import RetryableHttpError
 from src.Utilities import RequestHelper
 from bs4 import BeautifulSoup
 
@@ -12,7 +13,7 @@ class Ulva:
     async def scrape_data(self):
         table_data = []
         try:
-            response = await RequestHelper.get_url(self.__url)
+            response, status_code = await RequestHelper.get_url(self.__url)
             soup = BeautifulSoup(response, "html.parser")
             table = soup.find("table")
             table_body = table.find("tbody")
@@ -24,8 +25,10 @@ class Ulva:
                 table_data.append([ele for ele in cols if ele])
             
             return self.__process_data(table_data)
-        except Exception as ex:
-            self._menu["Chyba při stahování dat"] = [str(ex)]
+        except RetryableHttpError as retryable_error:
+            print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
+        except Exception as error:
+            print(f"Neočekávaná chyba: {error}")
     
     def __process_data(self, table_data):
         data = table_data[9:-7]

@@ -49,7 +49,7 @@ async def start_scraping():
              asyncio.create_task(scrape_ulva()), asyncio.create_task(scrape_sportcafe())]
     results = await asyncio.gather(*tasks)
 
-    # await asyncio.gather(asyncio.create_task(scrape_ulva()))
+    # await asyncio.gather(asyncio.create_task(scrape_kobyla()))
 
 if __name__ == "__main__":
     asyncio.run(start_scraping())

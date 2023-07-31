@@ -1,4 +1,4 @@
-from Utilities import RequestHelper
+from src.Utilities import RequestHelper
 from bs4 import BeautifulSoup
 
 
@@ -18,7 +18,6 @@ class SportCafe:
 			self._menu["Chyba při stahování dat"] = [str(ex)]
 
 	def __process_data(self, days):
-		result = {}
 		for i in range(len(days)):
 			current_h4 = days[i]
 			next_h4 = days[i + 1] if i + 1 < len(days) else None
@@ -35,8 +34,6 @@ class SportCafe:
 				food.append(p_element.text.strip().replace("\xa0", ""))
 
 			self._menu[current_h4.text.strip().replace("\xa0", "")] = food
-
-		return result
 
 	@property
 	def name(self) -> str:

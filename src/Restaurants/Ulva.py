@@ -1,4 +1,4 @@
-from Utilities import RequestHelper
+from src.Utilities import RequestHelper
 from bs4 import BeautifulSoup
 
 

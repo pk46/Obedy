@@ -8,6 +8,7 @@ class Ulva(Restaurant):
     
     def __init__(self, url, name):
         super().__init__(url, name)
+        self.__url = url
     
     async def _scrape_data(self, tag=None):
         table_data = []
@@ -29,7 +30,7 @@ class Ulva(Restaurant):
         except Exception as error:
             print(f"Neočekávaná chyba: {error}")
     
-    def __process_data(self, table_data):
+    def _process_data(self, table_data):
         data = table_data[9:-7]
         for element in data:
             if len(element) == 0:
@@ -52,4 +53,4 @@ class Ulva(Restaurant):
     
     async def main(self):
         scraped_data = await self._scrape_data()
-        self.__process_data(scraped_data)
+        self._process_data(scraped_data)

@@ -5,7 +5,7 @@ class PivovarskeDomy(Restaurant):
     def __init__(self, url, name):
         super().__init__(url, name)
     
-    def __process_data(self, days):
+    def _process_data(self, days):
         for i in range(len(days)):
             current_h2 = days[i]
             next_h2 = days[i + 1] if i + 1 < len(days) else None
@@ -26,5 +26,5 @@ class PivovarskeDomy(Restaurant):
     
     async def main(self):
         scraped_data = await self._scrape_data("h2")
-        self.__process_data(scraped_data)
+        self._process_data(scraped_data)
     

@@ -1,10 +1,11 @@
 from bs4 import BeautifulSoup
+from abc import ABC, abstractmethod
 
 from Utilities import RequestHelper
 from Utilities.RequestHelper import RetryableHttpError
 
 
-class Restaurant:
+class Restaurant(ABC):
     def __init__(self, url, name):
         self.__url: str = url
         self._name: str = name
@@ -23,6 +24,14 @@ class Restaurant:
             print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
         except Exception as error:
             print(f"Neočekávaná chyba: {error}")
+    
+    @abstractmethod
+    def _process_data(self, data):
+        pass
+    
+    @abstractmethod
+    def main(self):
+        pass
     
     @property
     def menu(self) -> dict:

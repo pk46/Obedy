@@ -16,9 +16,9 @@ class Kobyla(Restaurant):
         for element in food[1:-1]:
             clean_text.append(element.text)
         
-        return self.__process_data(clean_text)
+        return self._process_data(clean_text)
     
-    def __process_data(self, data):
+    def _process_data(self, data):
         text = "".join(data)
         days = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
         menu_data = {day: text.split(day)[1].strip().split("\n")[:4] for day in days}

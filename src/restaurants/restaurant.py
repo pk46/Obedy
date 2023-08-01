@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 from abc import ABC, abstractmethod
 
-from Utilities import RequestHelper
-from Utilities.RequestHelper import RetryableHttpError
+from utilities import request_helper
+from utilities.request_helper import RetryableHttpError
 
 
 class Restaurant(ABC):
@@ -13,7 +13,7 @@ class Restaurant(ABC):
     
     async def _scrape_data(self, tag=None):
         try:
-            response, status_code = await RequestHelper.get_url(self.__url)
+            response, status_code = await request_helper.get_url(self.__url)
             soup = BeautifulSoup(response, "html.parser")
             if tag:
                 data = soup.findAll(tag)

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Obědy Hradec Králové</title>
+    <link rel="stylesheet" href="../styles/template.css">
+</head>
+<body>
+<h1>{{ title }}</h1>
+    <ul>
+        {% for key, values in data.items() %}
+            <li>{{ key }}</li>
+            <ul>
+                {% for value in values %}
+                    <li>{{ value }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+</body>
+</html>

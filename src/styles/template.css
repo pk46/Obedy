@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 15px;
+}
+
+ul ul {
+    margin-left: 20px;
+}
+
+li {
+    font-weight: bold;
+}
+
+li:first-child {
+    font-size: 1.2em;
+}
+
+li:not(:first-child) {
+    font-size: 1.1em;
+}
+
+li ul li {
+    font-weight: normal;
+}

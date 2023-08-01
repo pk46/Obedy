@@ -1,5 +1,5 @@
 import unittest
-from src.Utilities.RequestHelper import get_url
+from src.utilities.request_helper import get_url
 
 
 class TestRequestHelper(unittest.IsolatedAsyncioTestCase):

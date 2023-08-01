@@ -1,6 +1,6 @@
-from Restaurants.Restaurant import Restaurant
-from Utilities.RequestHelper import RetryableHttpError
-from src.Utilities import RequestHelper
+from restaurants.restaurant import Restaurant
+from utilities.request_helper import RetryableHttpError
+from src.utilities import request_helper
 from bs4 import BeautifulSoup
 
 
@@ -13,7 +13,7 @@ class Ulva(Restaurant):
     async def _scrape_data(self, tag=None):
         table_data = []
         try:
-            response, status_code = await RequestHelper.get_url(self.__url)
+            response, status_code = await request_helper.get_url(self.__url)
             soup = BeautifulSoup(response, "html.parser")
             table = soup.find("table")
             table_body = table.find("tbody")

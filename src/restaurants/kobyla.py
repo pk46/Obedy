@@ -1,4 +1,4 @@
-from Restaurants.Restaurant import Restaurant
+from restaurants.restaurant import Restaurant
 
 
 class Kobyla(Restaurant):

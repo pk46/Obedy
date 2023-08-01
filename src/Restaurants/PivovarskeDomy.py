@@ -1,25 +1,12 @@
-from Utilities import RequestHelper
-from bs4 import BeautifulSoup
-
-from Utilities.RequestHelper import RetryableHttpError
+from Restaurants.Restaurant import Restaurant
 
 
-class PivovarskeDomy:
-    def __init__(self):
-        self.__url: str = "https://restaurace.pivovarskedomy.cz/denni-menu"
-        self._name: str = "Pivovarské domy"
+class PivovarskeDomy(Restaurant):
+    def __init__(self, url, name):
+        super().__init__(url, name)
+        self.__url: str = url
+        self._name: str = name
         self._menu: dict[str, list] = {}
-    
-    async def scrape_data(self):
-        try:
-            response, status_code = await RequestHelper.get_url(self.__url)
-            soup = BeautifulSoup(response, "html.parser")
-            days = soup.findAll("h2")
-            return self.__process_data(days)
-        except RetryableHttpError as retryable_error:
-            print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
-        except Exception as error:
-            print(f"Neočekávaná chyba: {error}")
     
     def __process_data(self, days):
         for i in range(len(days)):
@@ -40,11 +27,7 @@ class PivovarskeDomy:
             
             self._menu[current_h2.text.strip().replace("\xa0", "")] = food
     
-    @property
-    def menu(self) -> dict:
-        return self._menu
-    
-    @property
-    def name(self) -> str:
-        return self._name
+    async def main(self):
+        scraped_data = await self._scrape_data("h2")
+        self.__process_data(scraped_data)
     

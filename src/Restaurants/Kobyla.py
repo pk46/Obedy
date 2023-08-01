@@ -1,25 +1,10 @@
-from Utilities import RequestHelper
-from bs4 import BeautifulSoup
-
-from Utilities.RequestHelper import RetryableHttpError
+from Restaurants.Restaurant import Restaurant
 
 
-class Kobyla:
-    def __init__(self):
-        self.__url: str = "https://kobylahradec.cz/poledni-menu/"
-        self._name: str = "Kobyla"
+class Kobyla(Restaurant):
+    def __init__(self, url, name):
+        super().__init__(url, name)
         self._menu: dict[str, list] = {}
-    
-    async def scrape_data(self):
-        try:
-            response, status_code = await RequestHelper.get_url(self.__url)
-            soup = BeautifulSoup(response, "html.parser")
-            menu = soup.findAll()
-            return self.__get_only_important_data(menu)
-        except RetryableHttpError as retryable_error:
-            print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
-        except Exception as error:
-            print(f"Neočekávaná chyba: {error}")
     
     def __get_only_important_data(self, menu):
         clean_text = []
@@ -47,10 +32,6 @@ class Kobyla:
                 food.append(clean_food)
             self._menu[days[i]] = food
     
-    @property
-    def menu(self) -> dict:
-        return self._menu
-    
-    @property
-    def name(self) -> str:
-        return self._name
+    async def main(self):
+        scraped_data = await self._scrape_data()
+        self.__get_only_important_data(scraped_data)

@@ -1,16 +1,18 @@
+from Restaurants.Restaurant import Restaurant
 from Utilities.RequestHelper import RetryableHttpError
 from src.Utilities import RequestHelper
 from bs4 import BeautifulSoup
 
 
-class Ulva:
+class Ulva(Restaurant):
     
-    def __init__(self):
-        self.__url: str = "http://www.ulvahk.cz/denni-menu/"
-        self._name: str = "U Lva"
+    def __init__(self, url, name):
+        super().__init__(url, name)
+        self.__url: str = url
+        self._name: str = name
         self._menu: dict[str, list] = {}
     
-    async def scrape_data(self):
+    async def _scrape_data(self, tag=None):
         table_data = []
         try:
             response, status_code = await RequestHelper.get_url(self.__url)
@@ -24,7 +26,7 @@ class Ulva:
                 cols = [ele.text.strip() for ele in cols]
                 table_data.append([ele for ele in cols if ele])
             
-            return self.__process_data(table_data)
+            return table_data
         except RetryableHttpError as retryable_error:
             print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
         except Exception as error:
@@ -51,10 +53,6 @@ class Ulva:
                 self._menu[temp[0]] = [" ".join(food) for food in temp[1:]]
             start_index = i
     
-    @property
-    def name(self) -> str:
-        return self._name
-    
-    @property
-    def menu(self) -> dict:
-        return self._menu
+    async def main(self):
+        scraped_data = await self._scrape_data()
+        self.__process_data(scraped_data)

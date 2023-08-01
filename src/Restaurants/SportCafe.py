@@ -4,9 +4,6 @@ from Restaurants.Restaurant import Restaurant
 class SportCafe(Restaurant):
 	def __init__(self, url, name):
 		super().__init__(url, name)
-		self.__url: str = url
-		self._name: str = name
-		self._menu: dict[str, list] = {}
 
 	def __process_data(self, days):
 		for i in range(len(days)):

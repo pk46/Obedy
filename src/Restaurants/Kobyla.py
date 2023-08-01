@@ -4,7 +4,6 @@ from Restaurants.Restaurant import Restaurant
 class Kobyla(Restaurant):
     def __init__(self, url, name):
         super().__init__(url, name)
-        self._menu: dict[str, list] = {}
     
     def __get_only_important_data(self, menu):
         clean_text = []

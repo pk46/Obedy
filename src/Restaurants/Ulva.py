@@ -8,9 +8,6 @@ class Ulva(Restaurant):
     
     def __init__(self, url, name):
         super().__init__(url, name)
-        self.__url: str = url
-        self._name: str = name
-        self._menu: dict[str, list] = {}
     
     async def _scrape_data(self, tag=None):
         table_data = []

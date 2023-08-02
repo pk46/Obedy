@@ -1,47 +1,34 @@
 import asyncio
 from restaurants.pivovarske_domy import PivovarskeDomy
 from restaurants.kobyla import Kobyla
+from restaurants.restaurant import Restaurant
 from restaurants.u_lva import Ulva
 from restaurants.sport_cafe import SportCafe
 from utilities.html_generator import HTMLGenerator
 
-
-async def scrape_pivovarske_domy():
-    pivovarske_domy = PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy")
-    await pivovarske_domy.main()
-    return pivovarske_domy.menu, pivovarske_domy.name
-
-
-async def scrape_kobyla():
-    kobyla = Kobyla("https://kobylahradec.cz/poledni-menu/", "Kobyla")
-    await kobyla.main()
-    return kobyla.menu, kobyla.name
+restaurants = [
+    PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy"),
+    Kobyla("https://kobylahradec.cz/poledni-menu/", "Kobyla"),
+    Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva"),
+    SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café")
+]
 
 
-async def scrape_ulva():
-    ulva = Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva")
-    await ulva.main()
-    return ulva.menu, ulva.name
-
-
-async def scrape_sportcafe():
-    sport_cafe = SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café")
-    await sport_cafe.main()
-    return sport_cafe.menu, sport_cafe.name
+async def scrape(restaurant: Restaurant):
+    await restaurant.main()
+    return restaurant.menu, restaurant.name
 
 
 async def start_scraping():
-    # tasks = [asyncio.create_task(scrape_kobyla()), asyncio.create_task(scrape_pivovarske_domy()),
-    #          asyncio.create_task(scrape_ulva()), asyncio.create_task(scrape_sportcafe())]
-    # results = await asyncio.gather(*tasks)
-
-    result = await asyncio.gather(asyncio.create_task(scrape_sportcafe()))
-    generator = HTMLGenerator(result[0][1])
-    result = generator.generate_html(result[0])
-
-    with open("index.html", "w", encoding="utf-8") as file:
-        file.write(result)
+    tasks = [asyncio.create_task(scrape(restaurant)) for restaurant in restaurants]
+    results = await asyncio.gather(*tasks)
     
+    generator = HTMLGenerator()
+    html = generator.generate_html(results)
+    
+    with open("index.html", "w", encoding="utf-8") as file:
+        file.write(html)
+
 
 if __name__ == "__main__":
     asyncio.run(start_scraping())

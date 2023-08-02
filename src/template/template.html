@@ -6,9 +6,15 @@
     <link rel="stylesheet" href="../styles/template.css">
 </head>
 <body>
-<h1>{{ title }}</h1>
+<h1>Obědy Hradec Králové</h1>
+
+{% for restaurant_data in restaurants %}
+    {% set title = restaurant_data[1] %}
+
+    <h2>{{ title }}</h2>
+
     <ul>
-        {% for key, values in data.items() %}
+        {% for key, values in restaurant_data[0].items() %}
             <li>{{ key }}</li>
             <ul>
                 {% for value in values %}
@@ -17,5 +23,7 @@
             </ul>
         {% endfor %}
     </ul>
+{% endfor %}
+
 </body>
 </html>

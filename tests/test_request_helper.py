@@ -7,6 +7,7 @@ class TestRequestHelper(unittest.IsolatedAsyncioTestCase):
         url = "https://www.google.com"
         response, status_code = await get_url(url)
         self.assertEqual(status_code, 200)
+        self.assertIn("html", response)
 
 
 if __name__ == "__main__":

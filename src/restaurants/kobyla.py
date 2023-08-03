@@ -33,4 +33,7 @@ class Kobyla(Restaurant):
     
     async def main(self):
         scraped_data = await self._scrape_data()
-        self.__get_only_important_data(scraped_data)
+        if scraped_data:
+            self.__get_only_important_data(scraped_data)
+        else:
+            self._menu["Chyba"] = ["Chyba při načítání dat"]

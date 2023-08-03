@@ -25,4 +25,7 @@ class SportCafe(Restaurant):
 
 	async def main(self):
 		scraped_data = await self._scrape_data("h4")
-		self._process_data(scraped_data[1:-2])
+		if scraped_data:
+			self._process_data(scraped_data[1:-2])
+		else:
+			self._menu["Chyba"] = ["Chyba při načítání dat"]

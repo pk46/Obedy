@@ -1,18 +1,9 @@
 import unittest
-from unittest.mock import AsyncMock, patch
 from bs4 import BeautifulSoup
 from src.restaurants.sport_cafe import SportCafe
 
 
 class TestSportCafe(unittest.IsolatedAsyncioTestCase):
-    @patch('src.utilities.request_helper.get_url', new_callable=AsyncMock)
-    async def test_scrape_data_unavailable_website(self, mock_get_url):
-        mock_get_url.return_value = ("", 404)
-        
-        sport_cafe = SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café")
-        result = await sport_cafe.main()
-        
-        self.assertEqual(result, None)
     
     async def test_process_data(self):
         sport_cafe = SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Cafe")

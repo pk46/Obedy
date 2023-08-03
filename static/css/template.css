@@ -1,0 +1,9 @@
+li {
+    list-style: none;
+}
+
+.day {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 1rem;
+}

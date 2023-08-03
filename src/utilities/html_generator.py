@@ -4,7 +4,7 @@ import os
 
 class HTMLGenerator:
     def __init__(self):
-        self.env = Environment(loader=FileSystemLoader("C:/Users/motor/PycharmProjects/Obedy/src/template", "utf-8"))
+        self.env = Environment(loader=FileSystemLoader("C:/Users/motor/PycharmProjects/Obedy/static/template", "utf-8"))
         self.template = self.env.get_template("template.html")
     
     def generate_html(self, data):

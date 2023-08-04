@@ -4,9 +4,13 @@ import os
 
 class HTMLGenerator:
     def __init__(self):
-        self.env = Environment(loader=FileSystemLoader("C:/Users/motor/PycharmProjects/Obedy/static/template", "utf-8"))
+        os.chdir("..")
+        os.chdir("static/template")
+        self.env = Environment(loader=FileSystemLoader('./', "utf-8"))
         self.template = self.env.get_template("template.html")
     
     def generate_html(self, data):
         rendered_html = self.template.render(restaurants=data)
+        os.chdir("..")
+        os.chdir("..")
         return rendered_html

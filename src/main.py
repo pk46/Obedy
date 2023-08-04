@@ -22,11 +22,13 @@ async def scrape(restaurant: Restaurant):
 async def start_scraping():
     tasks = [asyncio.create_task(scrape(restaurant)) for restaurant in restaurants]
     results = await asyncio.gather(*tasks)
+    # results = [{"a": ["Tanga", "Kalhotky"]}, "Terezka"]
     
     generator = HTMLGenerator()
     html = generator.generate_html(results)
     
     with open("index.html", "w", encoding="utf-8") as file:
+        
         file.write(html)
 
 

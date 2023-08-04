@@ -1,5 +1,9 @@
-li {
+.list-group-item {
     list-style: none;
+}
+
+.dropdown-item {
+    cursor: pointer;
 }
 
 .day {

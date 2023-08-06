@@ -10,7 +10,7 @@ class Ulva(Restaurant):
         super().__init__(url, name)
         self.__url = url
     
-    async def _scrape_data(self, tag=None):
+    async def _scrape_data(self, tag=None, tag_name=None):
         table_data = []
         try:
             response, status_code = await request_helper.get_url(self.__url)
@@ -46,7 +46,6 @@ class Ulva(Restaurant):
                     temp.append(daily_menu[0])
                 else:
                     pass
-            
             if temp:
                 self._menu[temp[0]] = [" ".join(food) for food in temp[1:]]
             start_index = i

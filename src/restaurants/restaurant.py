@@ -10,13 +10,16 @@ class Restaurant(ABC):
         self.__url: str = url
         self._name: str = name
         self._menu: dict[str, list] = {}
+        self._days: list[str] = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
     
-    async def _scrape_data(self, tag=None):
+    async def _scrape_data(self, tag=None, name=None):
         try:
             response, status_code = await request_helper.get_url(self.__url)
             soup = BeautifulSoup(response, "html.parser")
             if tag:
                 data = soup.findAll(tag)
+            elif tag and name:
+                data = soup.findAll(tag, name)
             else:
                 data = soup.findAll()
             return data

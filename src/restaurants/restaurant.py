@@ -7,14 +7,14 @@ from utilities.request_helper import RetryableHttpError
 
 class Restaurant(ABC):
     def __init__(self, url, name):
-        self.__url: str = url
+        self._url: str = url
         self._name: str = name
         self._menu: dict[str, list] = {}
         self._days: list[str] = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
     
     async def _scrape_data(self, tag=None, name=None):
         try:
-            response, status_code = await request_helper.get_url(self.__url)
+            response, status_code = await request_helper.get_url(self._url)
             soup = BeautifulSoup(response, "html.parser")
             if tag:
                 data = soup.findAll(tag)
@@ -43,3 +43,7 @@ class Restaurant(ABC):
     @property
     def name(self) -> str:
         return self._name
+    
+    @property
+    def url(self) -> str:
+        return self._url

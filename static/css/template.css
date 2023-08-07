@@ -11,3 +11,8 @@
     font-weight: bold;
     margin-top: 1rem;
 }
+
+.card a {
+    text-decoration: none;
+    color: black;
+}

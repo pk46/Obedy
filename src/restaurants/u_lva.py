@@ -23,7 +23,7 @@ class Ulva(Restaurant):
                 cols = row.find_all("td")
                 cols = [ele.text.strip() for ele in cols]
                 table_data.append([ele for ele in cols if ele])
-            
+                
             return table_data
         except RetryableHttpError as retryable_error:
             print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
@@ -31,7 +31,7 @@ class Ulva(Restaurant):
             print(f"Neočekávaná chyba: {error}")
     
     def _process_data(self, table_data):
-        data = table_data[9:-7]
+        data = table_data[5:-1]  # indices are important to get all days
         for element in data:
             if len(element) == 0:
                 data.remove(element)

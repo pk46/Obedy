@@ -19,7 +19,7 @@ restaurants = [
 
 async def scrape(restaurant: Restaurant):
     await restaurant.main()
-    return restaurant.menu, restaurant.name
+    return restaurant.menu, restaurant.name, restaurant.url
 
 
 async def start_scraping():

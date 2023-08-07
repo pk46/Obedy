@@ -16,3 +16,9 @@
     text-decoration: none;
     color: black;
 }
+
+.card-header:hover {
+  background-color: #a0a0a0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.5s ease;
+}

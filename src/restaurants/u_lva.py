@@ -1,9 +1,7 @@
 import logging
+import re
 
 from restaurants.restaurant import Restaurant
-from utilities.request_helper import RetryableHttpError
-from src.utilities import request_helper
-from bs4 import BeautifulSoup
 
 
 class Ulva(Restaurant):
@@ -18,49 +16,32 @@ class Ulva(Restaurant):
                             encoding="utf-8",
                             filemode="a")
         self.logger = logging.getLogger()
-    
-    async def _scrape_data(self, tag=None, tag_name=None):
-        table_data = []
-        try:
-            response, status_code = await request_helper.get_url(self.__url)
-            soup = BeautifulSoup(response, "html.parser")
-            table = soup.find("table")
-            table_body = table.find("tbody")
-            rows = table_body.find_all("tr")
-            
-            for row in rows:
-                cols = row.find_all("td")
-                cols = [ele.text.strip() for ele in cols]
-                table_data.append([ele for ele in cols if ele])
-            self.logger.info(f"{self._name}: Data scrape successful")
-            return table_data
-        except RetryableHttpError as retryable_error:
-            self.logger.error(f"{self._name}: Všechny pokusy selhaly s kódem {retryable_error.status_code}")
-        except Exception as error:
-            self.logger.error(f"{self._name}: Neočekávaná chyba: {error}")
-    
-    def _process_data(self, table_data):
-        data = table_data[5:-1]  # indices are important to get all days
-        for element in data:
-            if len(element) == 0:
-                data.remove(element)
         
-        start_index = 0
-        for i in range(0, len(data), 5):
-            temp = []
-            for daily_menu in data[start_index:i]:
-                if len(daily_menu) > 1:
-                    temp.append(daily_menu)
-                elif len(daily_menu) == 1:
-                    temp.append(daily_menu[0])
-                else:
-                    pass
-            if temp:
-                self._menu[temp[0]] = [" ".join(food) for food in temp[1:]]
-            start_index = i
+    def _process_data(self, table_data):
+        pattern_weight = re.compile(r'(?<=[A-Z])(?=\d)')  # splits A120gHamburger to A 120gHamburger
+        pattern_weight_g = re.compile(r'(\d+g)(?=\w)')  # splits A 120gHamburger to A 120g Hamburger
+        pattern_price = re.compile(r'(\d+)\s*Kč')  # splits food price from food description
+        
+        table = table_data[0].findAll("tr")
+        food_data = [td.text.replace("\n", "") for td in table if td.text != ""]
+        date = food_data[7]
+        current_day = None
+        for item in food_data:
+            if item in self._days:
+                current_day = item
+                self._menu[current_day + " " + date] = []
+            elif item.startswith('Polévka:'):
+                self._menu[current_day + " " + date].append(item)
+            elif item.startswith('A') or item.startswith('B') or item.startswith('C'):
+                result = (pattern_weight
+                          .sub(' ', pattern_price
+                               .sub(r' \1 Kč', pattern_weight_g
+                                    .sub(r'\1 ', item))))
+                self._menu[current_day + " " + date].append(result)
+        
     
     async def main(self):
-        scraped_data = await self._scrape_data()
+        scraped_data = await self._scrape_data("table")
         if scraped_data:
             self._process_data(scraped_data)
         else:

@@ -9,7 +9,7 @@ class RetryableHttpError(Exception):
         self.status_code = status_code
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)  # comment this line to create log file otherwise it will log into the console
 
 
 async def get_url(url, class_name=None):

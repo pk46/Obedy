@@ -1,3 +1,4 @@
+import logging
 from bs4 import BeautifulSoup
 from abc import ABC, abstractmethod
 
@@ -6,16 +7,25 @@ from utilities.request_helper import RetryableHttpError
 
 
 class Restaurant(ABC):
+    FORMAT = "%(asctime)s %(levelname)s %(message)s"
+    
     def __init__(self, url, name):
         self._url: str = url
         self._name: str = name
         self._menu: dict[str, list] = {}
         self._days: list[str] = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
+        logging.basicConfig(filename="../scraper.log",
+                            format=self.FORMAT,
+                            level=logging.INFO,
+                            encoding="utf-8",
+                            filemode="w")
+        self.logger = logging.getLogger()
     
     async def _scrape_data(self, tag=None, name=None):
         try:
-            response, status_code = await request_helper.get_url(self._url)
+            response, status_code = await request_helper.get_url(self._url, self._name)
             soup = BeautifulSoup(response, "html.parser")
+            self.logger.info(f"{self._name}: Data scrape successful")
             if tag:
                 data = soup.findAll(tag)
             elif tag and name:
@@ -24,9 +34,9 @@ class Restaurant(ABC):
                 data = soup.findAll()
             return data
         except RetryableHttpError as retryable_error:
-            print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
+            self.logger.error(f"{self._name}: Všechny pokusy selhaly s kódem {retryable_error.status_code}")
         except Exception as error:
-            print(f"Neočekávaná chyba: {error}")
+            self.logger.error(f"{self._name}: Neočekávaná chyba: {error}")
     
     @abstractmethod
     def _process_data(self, data):

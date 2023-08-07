@@ -1,3 +1,5 @@
+import logging
+
 from restaurants.restaurant import Restaurant
 from utilities.request_helper import RetryableHttpError
 from src.utilities import request_helper
@@ -5,10 +7,17 @@ from bs4 import BeautifulSoup
 
 
 class Ulva(Restaurant):
+    FORMAT = "%(asctime)s %(levelname)s %(message)s"
     
     def __init__(self, url, name):
         super().__init__(url, name)
         self.__url = url
+        logging.basicConfig(filename="../scraper.log",
+                            format=self.FORMAT,
+                            level=logging.INFO,
+                            encoding="utf-8",
+                            filemode="a")
+        self.logger = logging.getLogger()
     
     async def _scrape_data(self, tag=None, tag_name=None):
         table_data = []
@@ -23,12 +32,12 @@ class Ulva(Restaurant):
                 cols = row.find_all("td")
                 cols = [ele.text.strip() for ele in cols]
                 table_data.append([ele for ele in cols if ele])
-                
+            self.logger.info(f"{self._name}: Data scrape successful")
             return table_data
         except RetryableHttpError as retryable_error:
-            print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
+            self.logger.error(f"{self._name}: Všechny pokusy selhaly s kódem {retryable_error.status_code}")
         except Exception as error:
-            print(f"Neočekávaná chyba: {error}")
+            self.logger.error(f"{self._name}: Neočekávaná chyba: {error}")
     
     def _process_data(self, table_data):
         data = table_data[5:-1]  # indices are important to get all days

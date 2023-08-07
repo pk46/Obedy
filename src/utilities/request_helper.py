@@ -24,8 +24,6 @@ async def get_url(url, class_name=None):
             logging.error(f"{class_name}: pokus č. {retry} selhal chybou RequestError")
             if retry == max_retries:
                 raise RetryableHttpError("", "RequestError")
-            else:
-                continue
         except httpx.HTTPStatusError as http_error:
             if 500 <= http_error.response.status_code < 600:
                 logging.error(f"{class_name}: pokus č. {retry} selhal kvůli chybě {http_error.response.status_code}")

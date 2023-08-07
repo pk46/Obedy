@@ -21,21 +21,21 @@ async def get_url(url, class_name=None):
                 response.raise_for_status()
                 return response.text, response.status_code
         except httpx.RequestError:
-            logging.warning(f"{class_name}: pokus č. {retry} selhal chybou RequestError")
+            logging.error(f"{class_name}: pokus č. {retry} selhal chybou RequestError")
             if retry == max_retries:
                 raise RetryableHttpError("", "RequestError")
             else:
                 continue
         except httpx.HTTPStatusError as http_error:
             if 500 <= http_error.response.status_code < 600:
-                logging.warning(f"{class_name}: pokus č. {retry} selhal kvůli chybě {http_error.response.status_code}")
+                logging.error(f"{class_name}: pokus č. {retry} selhal kvůli chybě {http_error.response.status_code}")
                 if retry == max_retries:
                     raise RetryableHttpError("", http_error)
             elif 400 <= http_error.response.status_code < 500:
-                logging.warning(f"{class_name} pokus č. {retry} kvůli chybě {http_error.response.status_code}")
+                logging.error(f"{class_name} pokus č. {retry} kvůli chybě {http_error.response.status_code}")
                 if retry == max_retries:
                     raise RetryableHttpError("", http_error.response.status_code)
         except Exception as error:
-            logging.warning(f"{class_name} pokus č. {retry} selhal chybou: {error}")
+            logging.error(f"{class_name} pokus č. {retry} selhal chybou: {error}")
             if retry == max_retries:
                 raise RetryableHttpError("", error)

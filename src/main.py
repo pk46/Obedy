@@ -1,4 +1,6 @@
 import asyncio
+
+from restaurants.archway import Archway
 from restaurants.pivovarske_domy import PivovarskeDomy
 from restaurants.kobyla import Kobyla
 from restaurants.restaurant import Restaurant
@@ -10,13 +12,14 @@ restaurants = [
     PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy"),
     Kobyla("https://kobylahradec.cz/poledni-menu/", "Kobyla"),
     Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva"),
-    SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café")
+    SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café"),
+    Archway("https://www.archwayrestaurant.cz/tydenni-menu/", "Archway")
 ]
 
 
 async def scrape(restaurant: Restaurant):
     await restaurant.main()
-    return restaurant.menu, restaurant.name
+    return restaurant.menu, restaurant.name, restaurant.url
 
 
 async def start_scraping():
@@ -27,7 +30,6 @@ async def start_scraping():
     html = generator.generate_html(results)
     
     with open("index.html", "w", encoding="utf-8") as file:
-        
         file.write(html)
 
 

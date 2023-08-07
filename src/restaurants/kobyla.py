@@ -20,16 +20,15 @@ class Kobyla(Restaurant):
     
     def _process_data(self, data):
         text = "".join(data)
-        days = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
-        menu_data = {day: text.split(day)[1].strip().split("\n")[:4] for day in days}
+        menu_data = {day: text.split(day)[1].strip().split("\n")[:4] for day in self._days}
         
         for i, food_items in enumerate(menu_data.values()):
             food = []
             for item in food_items:
-                clean_food = item.replace(days[i + 1], "").replace("\t", " ") if i < 4 else (item.replace(days[i], "")
+                clean_food = item.replace(self._days[i + 1], "").replace("\t", " ") if i < 4 else (item.replace(self._days[i], "")
                                                                                              .replace("\t", " "))
                 food.append(clean_food)
-            self._menu[days[i]] = food
+            self._menu[self._days[i]] = food
     
     async def main(self):
         scraped_data = await self._scrape_data()

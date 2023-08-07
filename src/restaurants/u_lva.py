@@ -10,7 +10,7 @@ class Ulva(Restaurant):
         super().__init__(url, name)
         self.__url = url
     
-    async def _scrape_data(self, tag=None):
+    async def _scrape_data(self, tag=None, tag_name=None):
         table_data = []
         try:
             response, status_code = await request_helper.get_url(self.__url)
@@ -23,7 +23,7 @@ class Ulva(Restaurant):
                 cols = row.find_all("td")
                 cols = [ele.text.strip() for ele in cols]
                 table_data.append([ele for ele in cols if ele])
-            
+                
             return table_data
         except RetryableHttpError as retryable_error:
             print(f"{self._name}: Pokusy selhaly s kódem {retryable_error.status_code}")
@@ -31,7 +31,7 @@ class Ulva(Restaurant):
             print(f"Neočekávaná chyba: {error}")
     
     def _process_data(self, table_data):
-        data = table_data[9:-7]
+        data = table_data[5:-1]  # indices are important to get all days
         for element in data:
             if len(element) == 0:
                 data.remove(element)
@@ -46,7 +46,6 @@ class Ulva(Restaurant):
                     temp.append(daily_menu[0])
                 else:
                     pass
-            
             if temp:
                 self._menu[temp[0]] = [" ".join(food) for food in temp[1:]]
             start_index = i

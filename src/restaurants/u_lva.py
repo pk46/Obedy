@@ -1,4 +1,3 @@
-import logging
 import re
 
 from restaurants.restaurant import Restaurant
@@ -10,13 +9,7 @@ class Ulva(Restaurant):
     def __init__(self, url, name):
         super().__init__(url, name)
         self.__url = url
-        logging.basicConfig(filename="../scraper.log",
-                            format=self.FORMAT,
-                            level=logging.INFO,
-                            encoding="utf-8",
-                            filemode="a")
-        self.logger = logging.getLogger()
-        
+
     def _process_data(self, table_data):
         pattern_weight = re.compile(r'(?<=[A-Z])(?=\d)')  # splits A120gHamburger to A 120gHamburger
         pattern_weight_g = re.compile(r'(\d+g)(?=\w)')  # splits A 120gHamburger to A 120g Hamburger
@@ -39,7 +32,6 @@ class Ulva(Restaurant):
                                     .sub(r'\1 ', item))))
                 self._menu[current_day + " " + date].append(result)
         
-    
     async def main(self):
         scraped_data = await self._scrape_data("table")
         if scraped_data:

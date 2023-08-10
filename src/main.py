@@ -7,7 +7,7 @@ from restaurants.kobyla import Kobyla
 from restaurants.restaurant import Restaurant
 from restaurants.u_lva import Ulva
 from restaurants.sport_cafe import SportCafe
-from utilities.html_generator import HTMLGenerator\
+from utilities.html_generator import HTMLGenerator
 
 restaurants = [
     PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy"),

@@ -1,8 +1,10 @@
+import time
+
 from bs4 import BeautifulSoup
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 
 from restaurants.restaurant import Restaurant
 from selenium import webdriver
@@ -18,32 +20,21 @@ class PotrefenaHusa(Restaurant):
         # print(data)
         ...
     
-    async def main(self, ec=None):
+    async def main(self):
         options = webdriver.EdgeOptions()
-        # options.add_argument('--headless')
-        
+        options.add_argument('--headless')
         browser = webdriver.Edge(options=options)
         
         try:
             browser.get(self._url)
-            script = """
-            (function(e,n,t,a,s){a=e.getElementsByTagName("head")[0],(s=e.createElement("script")).async=1,s.src="https://menickator.cz/integrations/web/includes/OqYRmcNHTZkNVT0yKXLj.js",a.appendChild(s)}(document));
-            """
-            
-            browser.execute_script(script)
-            
-            # Počkejte, dokud skript neskončí
-            timeout_in_seconds = 10
-            WebDriverWait(browser, timeout_in_seconds).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "men-integ-web text-align-center"))
+            browser.switch_to.frame(0)
+            elements = WebDriverWait(browser, 10).until(
+                ec.presence_of_all_elements_located((By.CLASS_NAME, "men-integ-web__day"))
             )
-            
-            html = browser.page_source
-            print(html)
-            # soup = BeautifulSoup(html, features="html.parser")
-            # print(soup)
+            for element in elements[:-2]:
+                print(element.text)
         except TimeoutException:
-            print("I give up...")
+            print("I give up...")  # nahradit loggerem
         finally:
             browser.quit()
         scraped_data = await self._scrape_data()

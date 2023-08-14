@@ -14,10 +14,7 @@ class Duran(Restaurant):
             price = week_menu[i].find("div", {"class": "row price"}).text
             daily_food = week_menu[i].findAll("div", {"class": "content"})
             for j in range(len(daily_food)):
-                if j == 0:
-                    temp_food.append("Polévka: " + daily_food[j].text)
-                else:
-                    temp_food.append(daily_food[j].text)
+                temp_food.append(daily_food[j].text)
             self._menu[day_name + date + ": " + price] = temp_food
     
     async def main(self):

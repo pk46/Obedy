@@ -17,6 +17,7 @@ class PotrefenaHusa(Restaurant):
     
     def __init__(self, url, name):
         super().__init__(url, name)
+        self.__date = ""
         logging.basicConfig(filename="../scraper.log",
                             format=self.FORMAT,
                             level=logging.INFO,
@@ -25,7 +26,6 @@ class PotrefenaHusa(Restaurant):
         self.logger = logging.getLogger()
         self.__options = webdriver.EdgeOptions()
         self.__options.add_argument('--headless')
-        self.__browser = None
     
     async def __get_url(self, url):
         for retry in range(1, self.__MAX_RETRIES + 1):
@@ -33,9 +33,10 @@ class PotrefenaHusa(Restaurant):
                 self.__browser = webdriver.Edge(options=self.__options)
                 self.logger.info(f"{self._name}: Selenium headless browser started")
                 self.__browser.get(url)
+                self.__date = self.__browser.execute_script("return document.getElementsByTagName('p');")[1].text
                 self.__browser.switch_to.frame(0)  # iFrame with food is on index 0
                 
-                elements = WebDriverWait(self.__browser, 10).until(
+                WebDriverWait(self.__browser, 10).until(
                     ec.presence_of_all_elements_located((By.CLASS_NAME, "men-integ-web__day"))
                 )
                 return self._process_data(self.__browser.page_source)
@@ -59,10 +60,10 @@ class PotrefenaHusa(Restaurant):
         days = menu.findAll("div", {"class": "men-integ-web__day"})[:-2]  # -2 = except Weekend
         for i in range(len(days)):
             daily_menu = days[i]
-            # print(week_menu)
             day_value = daily_menu.find("h3", {"class": "men-integ-web__subtitle"}).text
-            food_elements = daily_menu.findAll("span", {"class": "men-integ-web__food__name"})
+            food_elements = daily_menu.findAll("p", {"class": "men-integ-web__food"})
             food_value = [food.text for food in food_elements]
+            self._menu[f"{day_value}  {self.__date}"] = food_value
             
     async def main(self):
         try:
@@ -72,4 +73,3 @@ class PotrefenaHusa(Restaurant):
         except Exception as e:
             logging.error(f"Chyba při načítání dat: {e}")
             self._menu["Chyba"] = ["Chyba při načítání dat"]
-

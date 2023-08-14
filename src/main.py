@@ -11,12 +11,12 @@ from restaurants.sport_cafe import SportCafe
 from utilities.html_generator import HTMLGenerator
 
 restaurants = [
-    # PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy"),
-    # Kobyla("https://kobylahradec.cz/poledni-menu/", "Kobyla"),
-    # Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva"),
-    # SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café"),
-    # Archway("https://www.archwayrestaurant.cz/tydenni-menu/", "Archway"),
-    # Duran("https://www.duran.cz/tydenni-menu/", "Restaurant Duran"),
+    PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy"),
+    Kobyla("https://kobylahradec.cz/poledni-menu/", "Kobyla"),
+    Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva"),
+    SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café"),
+    Archway("https://www.archwayrestaurant.cz/tydenni-menu/", "Archway"),
+    Duran("https://www.duran.cz/tydenni-menu/", "Restaurant Duran"),
     PotrefenaHusa("https://husahradec.cz/tydenni-menu", "Potrefená husa")
 ]
 

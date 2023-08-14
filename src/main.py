@@ -4,6 +4,7 @@ from restaurants.archway import Archway
 from restaurants.duran import Duran
 from restaurants.pivovarske_domy import PivovarskeDomy
 from restaurants.kobyla import Kobyla
+from restaurants.potrefena_husa import PotrefenaHusa
 from restaurants.restaurant import Restaurant
 from restaurants.u_lva import Ulva
 from restaurants.sport_cafe import SportCafe
@@ -15,7 +16,8 @@ restaurants = [
     Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva"),
     SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café"),
     Archway("https://www.archwayrestaurant.cz/tydenni-menu/", "Archway"),
-    Duran("https://www.duran.cz/tydenni-menu/", "Restaurant Duran")
+    Duran("https://www.duran.cz/tydenni-menu/", "Restaurant Duran"),
+    PotrefenaHusa("https://husahradec.cz/tydenni-menu", "Potrefená husa")
 ]
 
 

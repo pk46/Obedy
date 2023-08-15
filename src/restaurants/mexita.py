@@ -9,9 +9,10 @@ class Mexita(Restaurant):
         week_menu = data[24]
         days = week_menu.findAll("div", {"class": "headline"})
         menu = week_menu.findAll("div", {"class": "table"})
+        menu_clean = [m.findAll("div", {"class": "item"}) for m in menu]
         for i in range(len(days)):
             day = days[i].text
-            daily_menu = [food.text for food in menu[i]]
+            daily_menu = [food.text for food in menu_clean[i]]
             self._menu[day] = daily_menu
     
     async def main(self):

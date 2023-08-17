@@ -1,6 +1,7 @@
 import asyncio
 
 from restaurants.archway import Archway
+from restaurants.cerny_kun import CernyKun
 from restaurants.duran import Duran
 from restaurants.mexita import Mexita
 from restaurants.pivovarske_domy import PivovarskeDomy
@@ -19,7 +20,8 @@ restaurants = [
     Archway("https://www.archwayrestaurant.cz/tydenni-menu/", "Archway"),
     Duran("https://www.duran.cz/tydenni-menu/", "Restaurant Duran"),
     PotrefenaHusa("https://husahradec.cz/tydenni-menu", "Potrefená husa"),
-    Mexita("https://www.mexita.cz/tydenni-menu", "Mexita")
+    Mexita("https://www.mexita.cz/tydenni-menu", "Mexita"),
+    CernyKun("http://www.cernykunhk.cz/tydenni-menu", "Černý kůň")
 ]
 
 

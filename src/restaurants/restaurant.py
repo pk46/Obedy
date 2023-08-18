@@ -43,7 +43,7 @@ class Restaurant(ABC):
         pass
     
     @abstractmethod
-    def main(self):
+    async def main(self):
         pass
     
     @property

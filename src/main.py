@@ -10,18 +10,20 @@ from restaurants.potrefena_husa import PotrefenaHusa
 from restaurants.restaurant import Restaurant
 from restaurants.u_lva import Ulva
 from restaurants.sport_cafe import SportCafe
+from restaurants.localis import Localis
 from utilities.html_generator import HTMLGenerator
 
 restaurants = [
-    PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy"),
-    Kobyla("https://kobylahradec.cz/poledni-menu/", "Kobyla"),
-    Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva"),
-    SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café"),
-    Archway("https://www.archwayrestaurant.cz/tydenni-menu/", "Archway"),
-    Duran("https://www.duran.cz/tydenni-menu/", "Restaurant Duran"),
-    PotrefenaHusa("https://husahradec.cz/tydenni-menu", "Potrefená husa"),
-    Mexita("https://www.mexita.cz/tydenni-menu", "Mexita"),
-    CernyKun("http://www.cernykunhk.cz/tydenni-menu", "Černý kůň")
+    # PivovarskeDomy("https://restaurace.pivovarskedomy.cz/denni-menu", "Pivovarské domy"),
+    # Kobyla("https://kobylahradec.cz/poledni-menu/", "Kobyla"),
+    # Ulva("http://www.ulvahk.cz/denni-menu/", "U Lva"),
+    # SportCafe("https://www.sport-cafe.cz/#tydenni-menu", "Sport Café"),
+    # Archway("https://www.archwayrestaurant.cz/tydenni-menu/", "Archway"),
+    # Duran("https://www.duran.cz/tydenni-menu/", "Restaurant Duran"),
+    # PotrefenaHusa("https://husahradec.cz/tydenni-menu", "Potrefená husa"),
+    # Mexita("https://www.mexita.cz/tydenni-menu", "Mexita"),
+    # CernyKun("http://www.cernykunhk.cz/tydenni-menu", "Černý kůň"),
+    Localis("http://www.localis.cz", "Localis"),
 ]
 
 

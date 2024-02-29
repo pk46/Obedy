@@ -10,7 +10,6 @@ from restaurants.potrefena_husa import PotrefenaHusa
 from restaurants.restaurant import Restaurant
 from restaurants.u_lva import Ulva
 from restaurants.sport_cafe import SportCafe
-from restaurants.localis import Localis
 from utilities.html_generator import HTMLGenerator
 
 restaurants = [
@@ -23,7 +22,6 @@ restaurants = [
     PotrefenaHusa("https://husahradec.cz/tydenni-menu", "Potrefená husa"),
     Mexita("https://www.mexita.cz/tydenni-menu", "Mexita"),
     CernyKun("http://www.cernykunhk.cz/tydenni-menu", "Černý kůň"),
-    Localis("http://www.localis.cz", "Localis"),
 ]
 
 
